@@ -1,4 +1,7 @@
 const Invoice = require('../models/Invoice');
+const generateInvoicePdf = require('../utils/generateInvoicePdf');
+const Business = require('../models/Business');
+
 
 exports.createInvoice = async (req, res) => {
   try {
@@ -77,6 +80,29 @@ exports.deleteInvoice = async (req, res) => {
     await invoice.deleteOne();
 
     res.json({ message: "Deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+exports.downloadInvoice = async (req, res) => {
+  try {
+    const invoice = await Invoice.findById(req.params.id);
+
+    if (!invoice) {
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+
+    // ownership check
+    if (invoice.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const business = await Business.findOne({ user: req.user.id });
+
+    generateInvoicePdf(invoice, business || {}, res);
 
   } catch (error) {
     res.status(500).json({ error: error.message });
