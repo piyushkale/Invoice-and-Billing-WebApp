@@ -1,13 +1,16 @@
 const express = require("express");
 const connectDB = require("./utils/db-connection");
+const indexRoute = require('./routes/index')
+
+const path = require("path");
 require("dotenv").config();
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("<h1>This is homepage</h1>");
-});
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+app.use('/api',indexRoute)
 
 connectDB();
 const PORT = process.env.PORT || 5000;
