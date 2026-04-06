@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="dashboard.js"></script>
+
+  <link href="./src/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+ <div id="header">
+      <!-- paste header here -->
+      <div
+        class="bg-linear-to-r from-blue-600 to-indigo-600 text-white px-6 py-4 flex justify-between items-center shadow-lg"
+      >
+        <!-- Left: Business Info -->
+        <div>
+          <h1 id="businessName" class="text-xl font-bold">
+            Your Business Name
+          </h1>
+          <p class="text-sm opacity-80">Dashboard</p>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="flex items-center gap-3">
+          <button
+            onclick="window.location.href = '/dashboard.html'"
+            class="bg-white text-blue-600 px-4 py-1.5 rounded-md hover:bg-gray-100 transition"
+          >
+            Dashboard
+          </button>
+
+          <button
+            onclick="window.location.href = '/create-invoice.html'"
+            class="bg-green-500 px-4 py-1.5 rounded-md hover:bg-green-600 transition"
+          >
+            + Invoice
+          </button>
+
+          <button
+            onclick="window.location.href = '/edit-business.html'"
+            class="bg-yellow-400 text-black px-4 py-1.5 rounded-md hover:bg-yellow-500 transition"
+          >
+            Edit Profile
+          </button>
+
+          <button
+            onclick="logout()"
+            class="bg-red-500 px-4 py-1.5 rounded-md hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+  <div class="p-6 max-w-5xl mx-auto">
+
+    <!-- Business Profile -->
+    <div class="bg-white p-5 rounded-xl shadow mb-6">
+      <h2 class="text-xl font-semibold mb-3">Business Profile</h2>
+
+      <p><strong>Name:</strong> <span id="bizName"></span></p>
+      <p><strong>Address:</strong> <span id="bizAddress"></span></p>
+      <p><strong>Phone:</strong> <span id="bizPhone"></span></p>
+      <p><strong>GST:</strong> <span id="bizGST"></span></p>
+    </div>
+
+    <!-- Action -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Invoices</h2>
+
+      <button onclick="goToCreate()"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+        + Create Invoice
+      </button>
+    </div>
+
+    <!-- Invoice Table -->
+    <div class="bg-white p-4 rounded-xl shadow">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b text-gray-600">
+            <th class="py-2">Client</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="invoiceTable" class="text-gray-700"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+</body>
+</html>

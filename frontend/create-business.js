@@ -5,7 +5,7 @@ if (!token) {
 }
 
 async function createBusiness() {
-  const name = document.getElementById("name").value;
+  const businessName = document.getElementById("name").value;
   const address = document.getElementById("address").value;
   const phone = document.getElementById("phone").value;
   const gst = document.getElementById("gst").value;
@@ -16,7 +16,7 @@ async function createBusiness() {
     await axios.post(
       "/api/businessProfile",
       {
-        name,
+        businessName,
         address,
         phone,
         gst,
