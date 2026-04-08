@@ -17,11 +17,11 @@ async function loadDashboard() {
 // Business
 async function loadBusiness() {
   const res = await axios.get("api/businessProfile", {
-    headers: { Authorization: token }
+    headers: { Authorization: token },
   });
 
   const biz = res.data;
-document.getElementById("businessName").innerText = biz.businessName;
+  document.getElementById("businessName").innerText = biz.businessName;
   document.getElementById("bizName").innerText = biz.businessName;
   document.getElementById("bizAddress").innerText = biz.address;
   document.getElementById("bizPhone").innerText = biz.phone;
@@ -30,8 +30,8 @@ document.getElementById("businessName").innerText = biz.businessName;
 
 // Invoices
 async function loadInvoices() {
-  const res = await axios.get("http://localhost:3000/invoice", {
-    headers: { Authorization: token }
+  const res = await axios.get("/api/invoice", {
+    headers: { Authorization: token },
   });
 
   const invoices = res.data;
@@ -42,16 +42,12 @@ function renderInvoices(invoices) {
   const table = document.getElementById("invoiceTable");
   table.innerHTML = "";
 
-  invoices.forEach(inv => {
+  invoices.forEach((inv) => {
     const row = `
       <tr class="border-b hover:bg-gray-50">
-        <td class="py-2">${inv.clientName}</td>
+        <td class="py-2">${inv.customerName}</td>
         <td>₹${inv.totalAmount}</td>
-        <td>
-          <span class="${inv.status === 'paid' ? 'text-green-600' : 'text-yellow-600'}">
-            ${inv.status}
-          </span>
-        </td>
+       
         <td>${new Date(inv.createdAt).toLocaleDateString()}</td>
         <td class="space-x-2">
           <button onclick="downloadPDF('${inv._id}')" class="text-blue-500">PDF</button>
@@ -67,7 +63,7 @@ function renderInvoices(invoices) {
 // Delete
 async function deleteInvoice(id) {
   await axios.delete(`http://localhost:3000/invoice/${id}`, {
-    headers: { Authorization: token }
+    headers: { Authorization: token },
   });
 
   loadInvoices();
@@ -76,11 +72,6 @@ async function deleteInvoice(id) {
 // PDF
 function downloadPDF(id) {
   window.open(`http://localhost:3000/invoice/pdf/${id}?token=${token}`);
-}
-
-//  Navigation
-function goToCreate() {
-  window.location.href = "/create-invoice.html";
 }
 
 function logout() {
@@ -93,3 +84,97 @@ loadDashboard();
 function goToEditProfile() {
   window.location.href = "/edit-business.html";
 }
+
+let items = [];
+
+function addItem() {
+  items.push({ name: "", quantity: 1, price: 0 });
+  renderItems();
+  calculateTotal();
+}
+
+function renderItems() {
+  const container = document.getElementById("itemsContainer");
+  container.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "flex gap-2";
+    console.log(item);
+    div.innerHTML = `
+      <input type="text" placeholder="Item" value="${item.name}"
+        onchange="updateItem(${index}, 'name', this.value)"
+        class="border p-2 w-1/3"/>
+
+      <input type="number" placeholder="Qty"
+        value="${item.quantity}"
+        onchange="updateItem(${index}, 'quantity', this.value)"
+        class="border p-2 w-1/4"/>
+
+      <input type="number" placeholder="Price" value="${item.price}"
+        onchange="updateItem(${index}, 'price', this.value)"
+        class="border p-2 w-1/4"/>
+
+      <button onclick="removeItem(${index})"
+        class="bg-red-500 text-white px-2">X</button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+function updateItem(index, field, value) {
+  if (field === "quantity" || field === "price") {
+    value = Number(value);
+  }
+
+  items[index][field] = value;
+  renderItems();
+  calculateTotal();
+}
+
+function removeItem(index) {
+  items.splice(index, 1);
+  renderItems();
+  calculateTotal();
+}
+
+function calculateTotal() {
+  const total = items.reduce((acc, item) => {
+    return acc + item.quantity * item.price;
+  }, 0);
+
+  document.getElementById("total").innerText = total;
+}
+
+async function createInvoice() {
+  const customerName = document.getElementById("customerName").value;
+
+  if (!customerName || items.length === 0) {
+    return alert("Fill all fields");
+  }
+
+  try {
+    await axios.post(
+      "/api/invoice/",
+      {
+        customerName,
+        items,
+      },
+      {
+        headers: { Authorization: token },
+      },
+    );
+
+    alert("Invoice Created!");
+    items = [];
+    renderItems();
+    addItem();
+    document.getElementById("customerName").value = "";
+  } catch (err) {
+    console.error(err);
+    alert("Error creating invoice");
+  }
+}
+
+addItem();
