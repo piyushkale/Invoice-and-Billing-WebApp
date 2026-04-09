@@ -51,6 +51,10 @@ function renderInvoices(invoices) {
         <td>${new Date(inv.createdAt).toLocaleDateString()}</td>
         <td class="space-x-2">
           <button onclick="downloadPDF('${inv._id}')" class="text-blue-500">PDF</button>
+      <button onclick="window.location.href ='/invoice.html?id=${inv._id}'"
+  class="text-blue-500">
+  Open
+</button>
           <button onclick="deleteInvoice('${inv._id}')" class="text-red-500">Delete</button>
         </td>
       </tr>
@@ -70,8 +74,21 @@ async function deleteInvoice(id) {
 }
 
 // PDF
-function downloadPDF(id) {
-  window.open(`http://localhost:3000/invoice/pdf/${id}?token=${token}`);
+async function downloadPDF(id) {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.get(`http://localhost:3000/api/invoice/${id}/pdf`, {
+    headers: { Authorization: token },
+    responseType: "blob",
+  });
+
+  const url = window.URL.createObjectURL(new Blob([res.data]));
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = `invoice-${id}.pdf`;
+  a.click();
 }
 
 function logout() {
