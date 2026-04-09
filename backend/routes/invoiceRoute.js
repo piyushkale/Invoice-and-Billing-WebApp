@@ -5,12 +5,15 @@ const {
   updateInvoice,
   createInvoice,
   getInvoices,
-  downloadInvoice
+  downloadInvoice,
+  getInv
 } = require("../controllers/invoiceController");
 
 const auth = require("../middleware/authMiddleware");
 
 router.get("/", auth, getInvoices);
+
+router.get("/:id",getInv)
 
 router.post("/", auth, createInvoice);
 
@@ -18,6 +21,6 @@ router.put("/:id", auth, updateInvoice);
 
 router.delete("/:id", auth, deleteInvoice);
 
-router.get('/:id/pdf', auth, downloadInvoice);
+router.get('/:id/pdf',auth , downloadInvoice);
 
 module.exports = router;
