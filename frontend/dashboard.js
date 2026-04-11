@@ -43,19 +43,28 @@ function renderInvoices(invoices) {
   table.innerHTML = "";
 
   invoices.forEach((inv) => {
+    const url = `http://localhost:3000/invoice.html?id=${inv._id}`;
+
+    const whatsappLink = `https://wa.me/?text=${encodeURIComponent(url)}`;
     const row = `
       <tr class="border-b hover:bg-gray-50">
-        <td class="py-2">${inv.customerName}</td>
+        <td class="py-2 cursor-pointer hover:bg-blue-100 transition-all duration-100" onclick="window.location.href ='/invoice.html?id=${inv._id}'">${inv.customerName}</td>
         <td>₹${inv.totalAmount}</td>
        
         <td>${new Date(inv.createdAt).toLocaleDateString()}</td>
         <td class="space-x-2">
-          <button onclick="downloadPDF('${inv._id}')" class="text-blue-500">PDF</button>
-      <button onclick="window.location.href ='/invoice.html?id=${inv._id}'"
-  class="text-blue-500">
-  Open
+          <button onclick="downloadPDF('${inv._id}')" class="text-blue-500 hover:bg-red-500 px-1 hover:text-white cursor-pointer">PDF</button>
+      <button onclick="copyLink('${inv._id}')"
+  class="text-blue-500 hover:bg-blue-500/80 px-1 hover:text-white cursor-pointer">
+  Share 🔗
 </button>
-          <button onclick="deleteInvoice('${inv._id}')" class="text-red-500">Delete</button>
+     
+ <button onclick="window.open('${whatsappLink}','_blank');"
+  class="text-green-500 hover:bg-green-500/80 px-1 hover:text-white cursor-pointer">
+  Whatsapp 
+</button>
+
+          <button onclick="deleteInvoice('${inv._id}')" class="text-red-500 hover:bg-red-500 px-1 hover:text-white cursor-pointer">Delete</button>
         </td>
       </tr>
     `;
@@ -117,7 +126,7 @@ function renderItems() {
   items.forEach((item, index) => {
     const div = document.createElement("div");
     div.className = "flex gap-2";
-    console.log(item);
+
     div.innerHTML = `
       <input type="text" placeholder="Item" value="${item.name}"
         onchange="updateItem(${index}, 'name', this.value)"
@@ -187,6 +196,7 @@ async function createInvoice() {
     items = [];
     renderItems();
     addItem();
+    loadInvoices();
     document.getElementById("customerName").value = "";
   } catch (err) {
     console.error(err);
@@ -195,3 +205,16 @@ async function createInvoice() {
 }
 
 addItem();
+
+function copyLink(id) {
+  const url = `http://localhost:3000/invoice.html?id=${id}`;
+
+  navigator.clipboard
+    .writeText(url)
+    .then(() => {
+      alert("Link copied!");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}

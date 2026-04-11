@@ -1,40 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Invoice</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invoice</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script defer src="invoice.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="invoice.js"></script>
 
-  <link href="./src/output.css" rel="stylesheet">
-</head>
+    <link href="./src/output.css" rel="stylesheet" />
+  </head>
 
-<body class="bg-gray-100 p-6">
+  <body class="bg-gray-100 p-6">
+       <div class="bg-indigo-200 text-slate-700 brightness-110 p-5 rounded-md shadow mb-6">
+        <h2 class="text-xl font-semibold mb-3">Business Profile</h2>
 
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+        <p><span id="bizName" class="text-3xl my-1 font-sans text-slate-900/90 font-bold "></span></p>
+        <p><strong>Address </strong> <span id="bizAddress"></span></p>
+        <p><strong>Phone </strong> <span id="bizPhone"></span></p>
+      </div>
 
-    <h1 class="text-2xl font-bold mb-4">Invoice</h1>
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+      <h1 class="text-2xl font-bold mb-4">Invoice</h1>
 
-    <!-- Customer -->
-    <div class="mb-4">
-      <input id="customerName" class="border p-2 w-full rounded" disabled />
+      <!-- Customer -->
+      <div class="mb-4">
+        <input id="customerName" class="border p-2 w-full rounded" disabled />
+      </div>
+
+      <!-- Items -->
+      <div id="itemsContainer" class="space-y-2 mb-4"></div>
+
+      <!-- Total -->
+      <h2 class="text-right text-xl font-bold mb-4">
+        Total: ₹<span id="total"></span>
+      </h2>
+
+      <!-- Actions -->
+      <div id="actions" class="flex justify-end gap-2"></div>
     </div>
-
-    <!-- Items -->
-    <div id="itemsContainer" class="space-y-2 mb-4"></div>
-
-    <!-- Total -->
-    <h2 class="text-right text-xl font-bold mb-4">
-      Total: ₹<span id="total"></span>
-    </h2>
-
-    <!-- Actions -->
-    <div id="actions" class="flex justify-end gap-2">
-
-    </div>
-
-  </div>
-
-</body>
+  </body>
 </html>

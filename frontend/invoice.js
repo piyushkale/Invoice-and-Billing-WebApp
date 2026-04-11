@@ -9,15 +9,18 @@ let isOwner = false;
 //  Load Invoice
 async function loadInvoice() {
   try {
-    const res = await axios.get(
-      `/api/invoice/${invoiceId}`,
-      {
-        headers: token ? { Authorization: token } : {}
-      }
-    );
+    const res = await axios.get(`/api/invoice/${invoiceId}`, {
+      headers: token ? { Authorization: token } : {},
+    });
 
     const inv = res.data.invoice;
-
+    document.getElementById("bizName").innerText =
+      res.data.details.businessName;
+    document.getElementById("bizAddress").innerText =
+      res.data.details.address;
+    document.getElementById("bizPhone").innerText =
+      res.data.details.phone;
+    
     document.getElementById("customerName").value = inv.customerName;
 
     items = inv.items;
@@ -25,11 +28,10 @@ async function loadInvoice() {
 
     document.getElementById("total").innerText = inv.totalAmount;
 
-    // Check ownership 
+    // Check ownership
     isOwner = res.data.isOwner;
 
     setupUI();
-
   } catch (err) {
     console.error(err);
   }
@@ -129,15 +131,14 @@ async function updateInvoice() {
       `/api/invoice/${invoiceId}`,
       {
         customerName: document.getElementById("customerName").value,
-        items
+        items,
       },
       {
-        headers: { Authorization: token }
-      }
+        headers: { Authorization: token },
+      },
     );
 
     alert("Invoice Updated!");
-
   } catch (err) {
     console.error(err);
   }
