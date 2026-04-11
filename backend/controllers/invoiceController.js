@@ -1,6 +1,7 @@
 const Invoice = require("../models/Invoice");
 const generateInvoicePdf = require("../utils/generateInvoicePdf");
 const Business = require("../models/Business");
+const mongoose = require('mongoose')
 const jwt = require("jsonwebtoken");
 
 exports.createInvoice = async (req, res) => {
@@ -38,7 +39,9 @@ exports.getInvoices = async (req, res) => {
 
 exports.getInv = async (req, res) => {
   try {
-    const invoice = await Invoice.findById(req.params.id);
+    const invoice = await Invoice.findById(req.params.id).lean();
+
+    const details = await Business.findOne({ user: invoice.user}).select("address businessName phone -_id").lean();
 
     let token = req.header("Authorization");
     let isOwner = false;
@@ -47,13 +50,12 @@ exports.getInv = async (req, res) => {
 
       if (invoice.user == decoded.id) {
         isOwner = true;
-        console.log(invoice.user, decoded.id);
       }
     }
 
     if (!invoice) return res.status(404).json({ message: "Not found" });
 
-    res.json({ invoice, isOwner });
+    res.json({ invoice, isOwner, details });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

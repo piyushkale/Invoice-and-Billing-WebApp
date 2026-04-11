@@ -1,26 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
   name: String,
   quantity: Number,
-  price: Number
+  price: Number,
 });
 
-const invoiceSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const invoiceSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    customerName: {
+      type: String,
+      required: true,
+    },
+    items: [itemSchema],
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
   },
-  customerName: {
-    type: String,
-    required: true
-  },
-  items: [itemSchema],
-  totalAmount: {
-    type: Number,
-    required: true
-  }
-}, { timestamps: true });
+  { timestamps: true },
+);
 
-module.exports = mongoose.model('Invoice', invoiceSchema);
+module.exports = mongoose.model("Invoice", invoiceSchema);

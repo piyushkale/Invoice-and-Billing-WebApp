@@ -34,14 +34,14 @@ const generateInvoicePdf = (invoice, business, res) => {
 
   invoice.items.forEach((item, index) => {
     doc.text(
-      `${index + 1}. ${item.name} - Qty: ${item.quantity} - ₹${item.price}`
+      `${index + 1}. ${item.name} - Qty: ${item.quantity} - Rs ${item.price}`
     );
   });
 
   doc.moveDown();
 
 
-  doc.fontSize(14).text(`Total: ₹${invoice.totalAmount}`, {
+  doc.fontSize(14).text(`Total: Rs ${invoice.totalAmount}`, {
     align: 'right'
   });
 
