@@ -34,7 +34,10 @@ async function loadInvoices() {
     headers: { Authorization: token },
   });
 
-  const invoices = res.data;
+  const invoices = res.data.invoices;
+  document.getElementById("last30Id").innerText = `Rs ${res.data.total}`;
+  document.getElementById("lastYearId").innerText = `Rs ${res.data.totalYear}`;
+  document.getElementById("billsId").innerText = `${res.data.count}`;
   renderInvoices(invoices);
 }
 

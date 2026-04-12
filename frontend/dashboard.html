@@ -17,15 +17,13 @@
       <div
         class="bg-linear-to-r from-blue-600 to-indigo-600 text-white px-6 py-4 flex justify-between items-center shadow-lg"
       >
-      <!-- Left side  -->
+        <!-- Left side  -->
         <div>
-          <h1 id="businessName" class="text-xl font-bold">
-           
-          </h1>
+          <h1 id="businessName" class="text-xl font-bold"></h1>
           <p class="text-sm opacity-80">Dashboard</p>
         </div>
 
-       <!-- Right side -->
+        <!-- Right side -->
         <div class="flex items-center gap-3">
           <button
             onclick="window.location.href = '/dashboard.html'"
@@ -33,8 +31,6 @@
           >
             Dashboard
           </button>
-
-        
 
           <button
             onclick="window.location.href = '/edit-business.html'"
@@ -55,23 +51,39 @@
 
     <div class="p-6 max-w-5xl mx-auto">
       <!-- Business Profile -->
-      <div class="bg-indigo-200 text-slate-700 brightness-110 p-5 rounded-md shadow mb-6">
+      <div
+        class="bg-indigo-200 text-slate-700 brightness-110 p-5 rounded-md shadow mb-6"
+      >
         <h2 class="text-xl font-semibold mb-3">Business Profile</h2>
 
-        <p class="my-2"><span id="bizName" class="text-3xl font-sans text-slate-900/90 font-bold "></span></p>
+        <p class="my-2">
+          <span
+            id="bizName"
+            class="text-3xl font-sans text-slate-900/90 font-bold"
+          ></span>
+        </p>
         <p><strong>Address </strong> <span id="bizAddress"></span></p>
         <p><strong>Phone </strong> <span id="bizPhone"></span></p>
         <p><strong>GST </strong> <span id="bizGST"></span></p>
       </div>
+      <h2 class="text-2xl mt-5 mb-2 font-sans text-slate-800/90 font-semibold">
+        Analytics 📊
+      </h2>
 
-      <div class="flex justify-center flex-wrap gap-4 opacity-95">
+      <div
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-1/4 bg-indigo-100/90 p-4"
+      >
         <div class="bg-green-300 text-xl font-bold rounded-md">
-          <h2 class="p-3 text-slate-900/80">Total Monthly Earning</h2>
-          <h3 class="p-3 bg-green-200">Rs 4000000</h3>
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Last 30 days Earning</h2>
+          <h3 id="last30Id" class="p-3 bg-green-200"></h3>
         </div>
         <div class="bg-green-300 text-xl font-bold rounded-md">
-          <h2 class="p-3 text-slate-900/80">Total Yearly Earning</h2>
-          <h3 class="p-3 bg-green-200">Rs 4000000</h3>
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Total bills (30 days)</h2>
+          <h3 id="billsId" class="p-3 bg-green-200"></h3>
+        </div>
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Last year Earning</h2>
+          <h3 id="lastYearId" class="p-3 bg-green-200"></h3>
         </div>
       </div>
 
@@ -109,7 +121,6 @@
         </button>
       </div>
 
-  
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold">Invoices</h2>
       </div>
