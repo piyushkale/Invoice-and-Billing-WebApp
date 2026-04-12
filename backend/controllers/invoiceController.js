@@ -1,7 +1,7 @@
 const Invoice = require("../models/Invoice");
 const generateInvoicePdf = require("../utils/generateInvoicePdf");
 const Business = require("../models/Business");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 exports.createInvoice = async (req, res) => {
@@ -31,7 +31,31 @@ exports.getInvoices = async (req, res) => {
       createdAt: -1,
     });
 
-    res.json(invoices);
+    const last30days = new Date();
+    last30days.setDate(last30days.getDate() - 30);
+
+    const inv = await Invoice.find({
+      user: req.user.id,
+      createdAt: { $gte: last30days },
+    });
+    const count = inv.length;
+    const total = inv.reduce((sum, inv) => {
+      return sum + inv.totalAmount;
+    }, 0);
+
+    const lastYear = new Date();
+    lastYear.setDate(lastYear.getDate() - 365);
+
+    const invYear = await Invoice.find({
+      user: req.user.id,
+      createdAt: { $gte: lastYear },
+    });
+
+    const totalYear = invYear.reduce((sum, inv) => {
+      return sum + inv.totalAmount;
+    }, 0);
+
+    res.json({ invoices, total, totalYear, count });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -41,7 +65,9 @@ exports.getInv = async (req, res) => {
   try {
     const invoice = await Invoice.findById(req.params.id).lean();
 
-    const details = await Business.findOne({ user: invoice.user}).select("address businessName phone -_id").lean();
+    const details = await Business.findOne({ user: invoice.user })
+      .select("address businessName phone -_id")
+      .lean();
 
     let token = req.header("Authorization");
     let isOwner = false;
