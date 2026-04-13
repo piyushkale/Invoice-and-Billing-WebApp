@@ -74,15 +74,21 @@
         class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-1/4 bg-indigo-100/90 p-4"
       >
         <div class="bg-green-300 text-xl font-bold rounded-md">
-          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Last 30 days Earning</h2>
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Last 30 days Earning
+          </h2>
           <h3 id="last30Id" class="p-3 bg-green-200"></h3>
         </div>
         <div class="bg-green-300 text-xl font-bold rounded-md">
-          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Total bills (30 days)</h2>
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Total bills (30 days)
+          </h2>
           <h3 id="billsId" class="p-3 bg-green-200"></h3>
         </div>
         <div class="bg-green-300 text-xl font-bold rounded-md">
-          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">Last year Earning</h2>
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Last year Earning
+          </h2>
           <h3 id="lastYearId" class="p-3 bg-green-200"></h3>
         </div>
       </div>
@@ -121,8 +127,18 @@
         </button>
       </div>
 
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center mt-7 mb-4">
         <h2 class="text-xl font-semibold">Invoices</h2>
+        <div>
+          <input
+            type="text"
+            placeholder="Find Invoice"
+            name="searchInvoice"
+            id="searchInv"
+            oninput="handleSearchInvoice()"
+            class="w-full px-4 bg-indigo-100 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
       </div>
       <!-- Invoice Table -->
       <div class="bg-white p-4 rounded-xl shadow h-[70vh] overflow-y-auto">

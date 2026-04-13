@@ -78,7 +78,7 @@ function renderInvoices(invoices) {
 
 // Delete
 async function deleteInvoice(id) {
-  await axios.delete(`http://localhost:3000/invoice/${id}`, {
+  await axios.delete(`/api/invoice/${id}`, {
     headers: { Authorization: token },
   });
 
@@ -204,6 +204,25 @@ async function createInvoice() {
   } catch (err) {
     console.error(err);
     alert("Error creating invoice");
+  }
+}
+
+const inputSearch = document.getElementById("searchInv");
+
+async function handleSearchInvoice() {
+  try {
+    const query = inputSearch.value.trim();
+    if (query.length === 0 || query.length < 3) {
+      return loadInvoices();
+    }
+
+    const res = await axios.get(`/api/invoice/search?q=${query}`, {
+      headers: { Authorization: token },
+    });
+    console.log(res.data);
+    renderInvoices(res.data);
+  } catch (error) {
+    console.log(error.message);
   }
 }
 
