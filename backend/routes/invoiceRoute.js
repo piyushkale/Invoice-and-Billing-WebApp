@@ -6,14 +6,18 @@ const {
   createInvoice,
   getInvoices,
   downloadInvoice,
-  getInv
+  getInv,
+  searchInv,
 } = require("../controllers/invoiceController");
 
 const auth = require("../middleware/authMiddleware");
 
 router.get("/", auth, getInvoices);
 
-router.get("/:id",getInv)
+router.get("/search", auth, searchInv);
+
+router.get("/:id", getInv);
+
 
 router.post("/", auth, createInvoice);
 
@@ -21,6 +25,6 @@ router.put("/:id", auth, updateInvoice);
 
 router.delete("/:id", auth, deleteInvoice);
 
-router.get('/:id/pdf',auth , downloadInvoice);
+router.get("/:id/pdf", auth, downloadInvoice);
 
 module.exports = router;

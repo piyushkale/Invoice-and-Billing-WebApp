@@ -155,3 +155,19 @@ exports.downloadInvoice = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.searchInv = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const invoices = await Invoice.find({
+      user: req.user.id,
+      customerName: { $regex: q, $options: "i" },
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json(invoices);
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: err.message });
+  }
+};
