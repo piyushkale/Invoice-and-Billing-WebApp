@@ -17,6 +17,12 @@ const invoiceSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    customerEmail: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     items: [itemSchema],
     totalAmount: {
       type: Number,

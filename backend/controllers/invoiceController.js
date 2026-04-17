@@ -1,12 +1,13 @@
 const Invoice = require("../models/Invoice");
 const generateInvoicePdf = require("../utils/generateInvoicePdf");
+const { sendInvoiceEmail } = require("../utils/sendInvoiceEmail");
 const Business = require("../models/Business");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
 exports.createInvoice = async (req, res) => {
   try {
-    const { customerName, items } = req.body;
+    const { customerName, customerEmail, items } = req.body;
 
     const totalAmount = items.reduce((acc, item) => {
       return acc + item.quantity * item.price;
@@ -15,10 +16,18 @@ exports.createInvoice = async (req, res) => {
     const invoice = await Invoice.create({
       user: req.user.id,
       customerName,
+      customerEmail,
       items,
       totalAmount,
     });
-
+    const link = `http://localhost:3000/invoice.html?id=${invoice._id}`;
+    try {
+      if (invoice.customerEmail) {
+        await sendInvoiceEmail(customerEmail, link);
+      }
+    } catch (err) {
+      console.error("Email failed:", err.message);
+    }
     res.status(201).json(invoice);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -167,7 +176,7 @@ exports.searchInv = async (req, res) => {
 
     res.status(200).json(invoices);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ error: err.message });
   }
 };
