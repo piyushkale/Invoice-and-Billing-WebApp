@@ -178,8 +178,9 @@ function calculateTotal() {
 
 async function createInvoice() {
   const customerName = document.getElementById("customerName").value;
+  const customerEmail = document.getElementById("customerEmail").value;
 
-  if (!customerName || items.length === 0) {
+  if (!customerName || !customerEmail || items.length === 0) {
     return alert("Fill all fields");
   }
 
@@ -188,6 +189,7 @@ async function createInvoice() {
       "/api/invoice/",
       {
         customerName,
+        customerEmail,
         items,
       },
       {
@@ -201,6 +203,7 @@ async function createInvoice() {
     addItem();
     loadInvoices();
     document.getElementById("customerName").value = "";
+    document.getElementById("customerEmail").value = "";
   } catch (err) {
     console.error(err);
     alert("Error creating invoice");
