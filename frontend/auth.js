@@ -2,7 +2,6 @@ const API = axios.create({
   baseURL: "/api",
 });
 
-
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
 
@@ -21,7 +20,6 @@ const nameInput = document.getElementById("name");
 const toggleBtn = document.getElementById("toggleBtn");
 const toggleText = document.getElementById("toggleText");
 
-
 toggleBtn.addEventListener("click", () => {
   isLogin = !isLogin;
 
@@ -37,8 +35,6 @@ toggleBtn.addEventListener("click", () => {
     toggleBtn.innerText = "Login";
   }
 });
-
-
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -60,10 +56,11 @@ form.addEventListener("submit", async (e) => {
       return;
     }
 
-    
-    
     localStorage.setItem("token", res.data.token);
-
+    if (res.data.role === "admin") {
+      window.location.href = "/admin-dashboard.html";
+      return;
+    }
     checkBusiness();
   } catch (err) {
     alert(err.response?.data?.message || "Something went wrong");

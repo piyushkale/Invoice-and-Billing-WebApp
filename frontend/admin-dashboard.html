@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="admin-dashboard.js"></script>
+
+    <link href="./src/output.css" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-900 text-amber-50 hidden">
+    <header
+      class="bg-amber-100/90 text-slate-950 flex justify-between px-10 py-2"
+    >
+      <h2 class="py-2 font-bold text-xl">Admin Dashboard</h2>
+      <h1 class="py-2 font-semibold opacity-90 text-xl">Invoice & Billing</h1>
+      <button
+        class="px-6 py-2 bg-black text-red-500 font-bold rounded-md border border-red-500 hover:text-red-400 hover:border-red-400 transition duration-300 relative overflow-hidden after:absolute after:inset-0 after:bg-red-500/20 after:scale-150 after:opacity-0 hover:after:scale-100 hover:after:opacity-100 after:transition after:duration-500 after:ease-out cursor-pointer"
+      >
+        Logout
+      </button>
+    </header>
+    <div class="px-10">
+      <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">Analytics 📊</h2>
+
+      <div
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-1/4 bg-indigo-100/90 p-4"
+      >
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            #1 Business
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Total Invoices (30 days)
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Businesses w/Subscriptions
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Total Businesses
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Banned Businesses
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+        <div class="bg-green-300 text-xl font-bold rounded-md">
+          <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
+            Rejected Businesses
+          </h2>
+          <h3 class="p-3 bg-green-200"></h3>
+        </div>
+      </div>
+      <!-- Pending Requests -->
+      <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
+        Pending Approvals
+      </h2>
+      <div id="pendingContainer"
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-indigo-100/90 p-4 max-h-[50vh] overflow-y-auto"
+      >
+        <div class="flex justify-around flex-row text-slate-800 bg-black/10">
+          <h2>Name</h2>
+          <h3>Email</h3>
+          <h3>Status</h3>
+        </div>
+        <div
+          class="flex justify-around p-2 items-center flex-row text-slate-800/80 bg-black/10"
+        >
+          <h2>Being Human</h2>
+          <h3>beinghuman@gmail.com</h3>
+
+          <button
+            class="px-3 py-1 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition duration-300 shadow-md hover:shadow-lg flex items-center space-x-2 relative overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition before:duration-300 before:skew-x-12 cursor-pointer"
+          >
+            Accept
+          </button>
+          <button
+            class="px-3 py-1 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 transition duration-300 shadow-md hover:shadow-lg flex items-center space-x-2 relative overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:scale-x-0 hover:before:scale-x-100 before:origin-left before:transition before:duration-300 before:skew-x-12 cursor-pointer"
+          >
+            Reject
+          </button>
+        </div>
+      </div>
+      <!-- Approved Businesses -->
+      <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
+        Approved Businesses
+      </h2>
+      <div id="approvedContainer"
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-emerald-200/90 p-4 max-h-[50vh] overflow-y-auto"
+      >
+        <div class="flex justify-around flex-row text-slate-800 bg-black/10">
+          <h2>Name</h2>
+          <h3>Email</h3>
+        </div>
+        <div
+          class="flex justify-around p-2 items-center flex-row text-slate-800 bg-black/10"
+        >
+          <h2>Being Human</h2>
+          <h3>beinghuman@gmail.com</h3>
+        </div>
+      </div>
+
+      <!-- Rejected Businesses -->
+      <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
+        Rejected Businesses
+      </h2>
+      <div id="rejectedContainer"
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-red-200/90 p-4 max-h-[50vh] overflow-y-auto"
+      >
+        <div class="flex justify-around flex-row text-slate-800 bg-black/10">
+          <h2>Name</h2>
+          <h3>Email</h3>
+        </div>
+        <div
+          class="flex justify-around p-2 items-center flex-row text-slate-800 bg-black/10"
+        >
+          <h2>Being Human</h2>
+          <h3>beinghuman@gmail.com</h3>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
