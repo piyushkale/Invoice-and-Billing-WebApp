@@ -5,6 +5,7 @@ const Business = require("../models/Business");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 
+
 exports.createInvoice = async (req, res) => {
   try {
     const { customerName, customerEmail, items } = req.body;
