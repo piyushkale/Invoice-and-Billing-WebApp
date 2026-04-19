@@ -1,16 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const adminAuth = require("../middleware/adminAuth");
+const {getBusinessStatus} = require('../controllers/adminController')
 
 router.use(adminAuth);
 
-// API to get pending approvals
-
-// API to get approvad businesses
-
-// API to get Rejected businesses
-
-// API to get Banned businesses
+// get businesses based on their status
+router.get("/businessStatus", getBusinessStatus);
 
 // API to accept Approval or Rejection of business registration
 
