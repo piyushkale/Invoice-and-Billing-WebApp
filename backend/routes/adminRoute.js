@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminAuth = require("../middleware/adminAuth");
-const {getBusinessStatus} = require('../controllers/adminController')
+const { getBusinessStatus,updateBusinessStatus } = require("../controllers/adminController");
 
 router.use(adminAuth);
 
@@ -9,7 +9,7 @@ router.use(adminAuth);
 router.get("/businessStatus", getBusinessStatus);
 
 // API to accept Approval or Rejection of business registration
-
+router.put("/updateStatus", updateBusinessStatus);
 // API to ban Existing business
 
 // API to get Analytical data

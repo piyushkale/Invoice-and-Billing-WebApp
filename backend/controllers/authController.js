@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
 exports.roleAuthenticate = async (req, res) => {
   try {
     const { role, status } = req.user;
-    res.status(200).json(role);
+    res.status(200).json({role,status});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
