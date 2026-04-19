@@ -9,7 +9,7 @@ async function createBusiness() {
   const address = document.getElementById("address").value;
   const phone = document.getElementById("phone").value;
   const gst = document.getElementById("gst").value;
-  if (!name || !address || !phone) {
+  if (!businessName || !address || !phone) {
     return alert("Please fill all required fields");
   }
   try {

@@ -3,6 +3,25 @@ const token = localStorage.getItem("token");
 if (!token) {
   window.location.href = "/index.html";
 }
+window.onload = async () => {
+  // api to verfiy account status
+  // if approved return or else #bodyContainer hide this and show account status
+  const res = await axios.get("/api/auth/roleAuthenticate", {
+    headers: { Authorization: token },
+  });
+  console.log(res.data);
+  const div = document.getElementById("bodyContainer");
+  if (res.data.status !== "approved") {
+    div.remove();
+    loadBusiness();
+    loadAccountStatus(res.data.status);
+    return;
+  }
+  div.classList.remove("hidden");
+  loadDashboard();
+};
+
+
 
 // Load everything
 async function loadDashboard() {
@@ -107,8 +126,6 @@ function logout() {
   localStorage.removeItem("token");
   window.location.href = "/index.html";
 }
-
-loadDashboard();
 
 function goToEditProfile() {
   window.location.href = "/edit-business.html";
@@ -242,4 +259,31 @@ function copyLink(id) {
     .catch((err) => {
       console.error(err);
     });
+}
+
+function loadAccountStatus(status) {
+   document.body.innerHTML += `
+  <div class="min-h-[70vh] flex items-center justify-center px-4">
+    <div class="bg-white shadow-lg rounded-2xl p-6 max-w-md w-full text-center">
+      
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">
+        Status: <span class="capitalize text-yellow-600">${status}</span>
+      </h2>
+      
+      <p class="text-gray-600 text-sm">
+        This account is not yet eligible to access the dashboard.
+      </p>
+
+      <div class="mt-4">
+        <button 
+          onclick="window.location.reload()" 
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+        >
+          Refresh
+        </button>
+      </div>
+
+    </div>
+  </div>
+`;
 }
