@@ -4,6 +4,9 @@ window.onload = async () => {
   try {
     await checkAdmin();
     document.body.classList.remove("hidden");
+    pendingBusinesses();
+    approvedBusinesses();
+    rejectedBusinesses();
   } catch (error) {
     console.log(error.message);
   }
@@ -27,7 +30,9 @@ async function checkAdmin() {
 // pending approval function
 async function pendingBusinesses() {
   try {
-    const res = await axios.get();
+    const res = await axios.get("/api/admin/businessStatus?status=pending", {
+      headers: { Authorization: token },
+    });
     const data = res.data;
     displayPendingRequests(data);
   } catch (error) {
@@ -66,8 +71,11 @@ function displayPendingRequests(data) {
 
 async function approvedBusinesses() {
   try {
-    const res = await axios.get();
+    const res = await axios.get("/api/admin/businessStatus?status=approved", {
+      headers: { Authorization: token },
+    });
     const data = res.data;
+    
     displayApprovedBusinesses(data);
   } catch (error) {
     console.log(error.message);
@@ -81,11 +89,11 @@ function displayApprovedBusinesses(data) {
           <h3>Email</h3>
         </div>`;
 
-  data.map((biz) => {
+  data.map((biz, i) => {
     approvedContainer.innerHTML += `  <div
           class="flex justify-around p-2 items-center flex-row text-slate-800 bg-black/10"
         >
-          <h2>${biz.name}</h2>
+          <h2>${i + 1}.  ${biz.name}</h2>
           <h3>${biz.email}</h3>
         </div>`;
   });
@@ -95,7 +103,9 @@ function displayApprovedBusinesses(data) {
 
 async function rejectedBusinesses() {
   try {
-    const res = await axios.get();
+    const res = await axios.get("/api/admin/businessStatus?status=rejected", {
+      headers: { Authorization: token },
+    });
     const data = res.data;
     displayRejectedBusinesses(data);
   } catch (error) {
