@@ -6,6 +6,7 @@ window.onload = async () => {
     pendingBusinesses();
     approvedBusinesses();
     rejectedBusinesses();
+    bannedBusinesses();
   } catch (error) {
     console.log(error.message);
   }
@@ -150,6 +151,34 @@ function displayRejectedBusinesses(data) {
 }
 
 // banned businesses
+async function bannedBusinesses() {
+  try {
+    const res = await axios.get("/api/admin/businessStatus?status=banned", {
+      headers: { Authorization: token },
+    });
+    const data = res.data;
+    displayBannedBusinesses(data);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+function displayBannedBusinesses(data) {
+  const bannedContainer = document.getElementById("bannedContainer");
+  bannedContainer.innerHTML = `<div class="flex justify-around flex-row text-slate-800 bg-black/10">
+          <h2>Name</h2>
+          <h3>Email</h3>
+        </div>`;
+
+  data.map((biz) => {
+    bannedContainer.innerHTML += `<div
+          class="flex justify-around p-2 items-center flex-row text-slate-800 bg-black/10"
+        >
+          <h2>${biz.name}</h2>
+          <h3>${biz.email}</h3>
+        </div>`;
+  });
+}
 
 //logout
 function logout() {

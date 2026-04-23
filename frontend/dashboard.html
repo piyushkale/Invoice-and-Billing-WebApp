@@ -71,68 +71,71 @@
       </h2>
 
       <div
-        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-1/4 bg-indigo-100/90 p-4"
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-1/4 bg-linear-to-r from-violet-500 to-purple-500 p-4"
       >
-        <div class="bg-green-300 text-xl font-bold rounded-md">
+        <div class="bg-slate-300 text-xl font-bold rounded-md">
           <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
             Last 30 days Earning
           </h2>
-          <h3 id="last30Id" class="p-3 bg-green-200"></h3>
+          <h3 id="last30Id" class="p-3 bg-gray-200"></h3>
         </div>
-        <div class="bg-green-300 text-xl font-bold rounded-md">
+        <div class="bg-slate-300 text-xl font-bold rounded-md">
           <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
             Total bills (30 days)
           </h2>
-          <h3 id="billsId" class="p-3 bg-green-200"></h3>
+          <h3 id="billsId" class="p-3 bg-gray-200"></h3>
         </div>
-        <div class="bg-green-300 text-xl font-bold rounded-md">
+        <div class="bg-slate-300 text-xl font-bold rounded-md">
           <h2 class="p-3 text-slate-800/80 shadow-2xl shadow-emerald-950">
             Last year Earning
           </h2>
-          <h3 id="lastYearId" class="p-3 bg-green-200"></h3>
+          <h3 id="lastYearId" class="p-3 bg-gray-200"></h3>
         </div>
       </div>
 
       <!-- Create invoice -->
-      <div
-        class="bg-white p-5 rounded-xl max-w-2xl mx-auto mt-6 shadow-[0px_0px_40px_0px_rgba(203,249,225,0.7)]"
-      >
-        <h2 class="text-xl font-bold mb-4">Create Invoice</h2>
-
-        <!-- Customer -->
-        <input
-          id="customerName"
-          type="text"
-          placeholder="Customer Name"
-          class="border p-2 w-full rounded mb-4"
-        />
-        <input
-          id="customerEmail"
-          type="email"
-          placeholder="Customer email"
-          class="border p-2 w-full rounded mb-4"
-        />
-
-        <!-- Items -->
-        <div id="itemsContainer" class="space-y-2 mb-4"></div>
-
-        <button
-          onclick="addItem()"
-          class="bg-blue-500 cursor-pointer text-white px-3 py-1 rounded mb-4"
+      <div class="bg-linear-to-r py-10 px-4 from-slate-600 to-slate-800">
+        <h2
+          class="text-2xl mb-6 font-sans text-slate-100/90 font-semibold"
         >
-          + Add Item
-        </button>
+          Create Invoice 📝
+        </h2>
+        <div class="bg-white/90 p-5 rounded-xl max-w-2xl mx-auto">
+          <!-- Customer -->
+          <input
+            id="customerName"
+            type="text"
+            placeholder="Customer Name"
+            class="border p-2 w-full rounded mb-4"
+          />
+          <input
+            id="customerEmail"
+            type="email"
+            placeholder="Customer email"
+            class="border p-2 w-full rounded mb-4"
+          />
 
-        <!-- Total -->
-        <h3 class="font-bold mb-4">Total: ₹<span id="total">0</span></h3>
+          <!-- Items -->
+          <div id="itemsContainer" class="space-y-2 mb-4"></div>
 
-        <!-- Submit -->
-        <button
-          onclick="createInvoice()"
-          class="bg-green-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Create Invoice
-        </button>
+          <button
+            onclick="addItem()"
+            class="bg-blue-500 cursor-pointer text-white px-3 py-1 rounded mb-4"
+          >
+            + Add Item
+          </button>
+
+          <!-- Total -->
+          <h3 class="font-bold mb-4">Total: ₹<span id="total">0</span></h3>
+
+          <!-- Submit -->
+          <button
+            onclick="createInvoice()"
+            class="bg-green-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Create Invoice
+          </button>
+        </div>
       </div>
 
       <div class="flex justify-between items-center mt-7 mb-4">

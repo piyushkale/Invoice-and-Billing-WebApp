@@ -15,13 +15,14 @@
     >
       <h2 class="py-2 font-bold text-xl">Admin Dashboard</h2>
       <h1 class="py-2 font-semibold opacity-90 text-xl">Invoice & Billing</h1>
-      <button onclick="logout()"
+      <button
+        onclick="logout()"
         class="px-6 py-2 bg-black text-red-500 font-bold rounded-md border border-red-500 hover:text-red-400 hover:border-red-400 transition duration-300 relative overflow-hidden after:absolute after:inset-0 after:bg-red-500/20 after:scale-150 after:opacity-0 hover:after:scale-100 hover:after:opacity-100 after:transition after:duration-500 after:ease-out cursor-pointer"
       >
         Logout
       </button>
     </header>
-    <div class="px-10 pb-10">
+    <div class="px-24 pb-10">
       <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">Analytics 📊</h2>
 
       <div
@@ -70,7 +71,8 @@
       <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
         Pending Approvals
       </h2>
-      <div id="pendingContainer"
+      <div
+        id="pendingContainer"
         class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-indigo-100/90 p-4 max-h-[50vh] overflow-y-auto"
       >
         <!-- <div class="flex justify-around flex-row text-slate-800 bg-black/10">
@@ -100,7 +102,8 @@
       <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
         Approved Businesses
       </h2>
-      <div id="approvedContainer"
+      <div
+        id="approvedContainer"
         class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-emerald-100 p-4 max-h-[50vh] overflow-y-auto"
       >
         <!-- <div class="flex justify-around flex-row text-slate-800 bg-black/10">
@@ -119,8 +122,30 @@
       <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
         Rejected Businesses
       </h2>
-      <div id="rejectedContainer"
+      <div
+        id="rejectedContainer"
         class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-red-100 p-4 max-h-[50vh] overflow-y-auto"
+      >
+        <!-- <div class="flex justify-around flex-row text-slate-800 bg-black/10">
+          <h2>Name</h2>
+          <h3>Email</h3>
+        </div>
+        <div
+          class="flex justify-around p-2 items-center flex-row text-slate-800 bg-black/10"
+        >
+          <h2>Being Human</h2>
+          <h3>beinghuman@gmail.com</h3>
+        </div> -->
+      </div>
+
+      <!-- Banned Businesses -->
+       
+      <h2 class="text-2xl mt-5 mb-2 font-sans font-semibold">
+        Banned Businesses
+      </h2>
+      <div
+        id="bannedContainer"
+        class="flex justify-center flex-wrap shadow rounded-sm gap-4 opacity-95 [&_div]:w-3/4 bg-red-200 p-4 max-h-[50vh] overflow-y-auto"
       >
         <!-- <div class="flex justify-around flex-row text-slate-800 bg-black/10">
           <h2>Name</h2>
