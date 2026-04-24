@@ -7,6 +7,7 @@ window.onload = async () => {
     approvedBusinesses();
     rejectedBusinesses();
     bannedBusinesses();
+    loadAnalyticalData();
   } catch (error) {
     console.log(error.message);
   }
@@ -254,6 +255,35 @@ function renderSearchResults(data) {
         </div>
       `;
   });
+}
+
+// Load analytical Dashboard
+async function loadAnalyticalData() {
+  try {
+    const res = await axios.get("/api/admin/analytics", {
+      headers: { Authorization: token },
+    });
+    const data = res.data;
+    console.log(data);
+    document.getElementById("topUser").innerText = data.topUser?.name
+      ? data.topUser.name
+      : "N/A";
+    document.getElementById("total30").innerText = data.total30DayInvoices
+      ? data.total30DayInvoices
+      : "N/A";
+    document.getElementById("totalUsers").innerText = data.totalUsers
+      ? data.totalUsers
+      : "N/A";
+    document.getElementById("rejectedUsers").innerText = data.rejectedUsers
+      ? data.rejectedUsers
+      : "N/A";
+
+    document.getElementById("bannedUsers").innerText = String(data.bannedUsers)
+      ? data.bannedUsers
+      : "N/A";
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 //logout
