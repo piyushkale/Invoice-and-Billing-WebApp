@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Invoice = require("../models/Invoice");
 
 exports.getBusinessStatus = async (req, res) => {
   try {
@@ -54,6 +55,39 @@ exports.updateBusinessStatus = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.analyticalData = async (req, res) => {
+  try {
+    // get top user (max Invoices)
+    const result = await Invoice.aggregate([
+      { $group: { _id: "$user", totalInvoices: { $sum: 1 } } },
+      { $sort: { totalInvoices: -1 } },
+      { $limit: 1 },
+    ]);
+
+    const topUser = await User.findById(result[0]._id).select("name").lean();
+
+    const dateNow = new Date();
+    const last30Days = dateNow.setDate(dateNow.getDate() - 30);
+    const total30DayInvoices = await Invoice.countDocuments({
+      createdAt: { $gte: last30Days },
+    });
+    // const premiumUsersCount = await User
+    const totalUsers = await User.countDocuments({ role: "user" });
+    const rejectedUsers = await User.countDocuments({ status: "rejected" });
+    const bannedUsers = await User.countDocuments({ status: "banned" });
+
+    res.status(200).json({
+      topUser,
+      total30DayInvoices,
+      totalUsers,
+      rejectedUsers,
+      bannedUsers,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
