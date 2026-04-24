@@ -17,6 +17,27 @@ exports.getBusinessStatus = async (req, res) => {
   }
 };
 
+exports.getAllBusinesses = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    const result = await User.find({
+      role: "user",
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+      ],
+    })
+      .select("name email status")
+      .limit(10)
+      .lean();
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.updateBusinessStatus = async (req, res) => {
   try {
     const { id, status } = req.body;
@@ -28,7 +49,7 @@ exports.updateBusinessStatus = async (req, res) => {
       { $set: { status } },
       { new: true },
     ).select("name email status");
-    
+
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
