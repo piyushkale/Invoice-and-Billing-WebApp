@@ -78,9 +78,10 @@ async function updateStatus(id, status) {
       { headers: { Authorization: token } },
     );
 
-    console.log(res.data.message);
     pendingBusinesses();
     approvedBusinesses();
+    bannedBusinesses();
+    searchBusiness();
     rejectedBusinesses();
   } catch (error) {
     console.log(error.message);
@@ -177,6 +178,81 @@ function displayBannedBusinesses(data) {
           <h2>${biz.name}</h2>
           <h3>${biz.email}</h3>
         </div>`;
+  });
+}
+
+// handle search
+
+let timeout;
+
+async function searchBusiness() {
+  clearTimeout(timeout);
+
+  timeout = setTimeout(async () => {
+    try {
+      let text = document.getElementById("searchElement").value.trim();
+
+      if (text.length < 4) {
+        document.getElementById("searchDiv").classList.add("hidden");
+        return;
+      }
+
+      const res = await axios.get(`/api/admin/search?query=${text}`, {
+        headers: { Authorization: token },
+      });
+
+      if (!res.data || res.data.length < 1) {
+        document.getElementById("searchDiv").classList.add("hidden");
+        return;
+      }
+      renderSearchResults(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, 400); // 400ms delay
+}
+
+function renderSearchResults(data) {
+  const mainDiv = document.getElementById("searchDiv");
+  mainDiv.classList.remove("hidden");
+  mainDiv.classList.remove("flex");
+  mainDiv.innerHTML = `  <div class="flex justify-evenly py-1 gap-11 px-10">
+          <h2>Name</h2>
+          <h2>Email</h2>
+          <h3>Status</h3>
+          
+        </div>`;
+
+  data.map((biz) => {
+    mainDiv.innerHTML += `<div class="flex justify-evenly gap-11 py-0.5 px-10 hover:bg-slate-100">
+          <h2>${biz.name}</h2>
+          <h2>${biz.email}</h2>
+          <h3>${biz.status}</h3>
+           ${
+             biz.status === "approved"
+               ? `<button onclick="updateStatus('${biz._id}','banned')"
+              class="bg-red-400 px-2 rounded-md cursor-pointer hover:bg-red-500 transition duration-200">
+              Ban
+            </button>`
+               : ""
+           }
+           ${
+             biz.status === "pending"
+               ? `<button onclick="updateStatus('${biz._id}','approved')"
+            class="bg-emerald-400 px-2 rounded-md cursor-pointer hover:bg-emerald-500 transition duration-200"
+          >
+            Approve
+          </button>
+          <button onclick="updateStatus('${biz._id}','rejected')"
+            class="bg-red-400 px-2 rounded-md cursor-pointer hover:bg-red-500 transition duration-200"
+          >
+            Reject
+          </button>`
+               : ""
+           }
+          
+        </div>
+      `;
   });
 }
 
