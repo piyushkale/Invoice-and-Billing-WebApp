@@ -21,8 +21,6 @@ window.onload = async () => {
   loadDashboard();
 };
 
-
-
 // Load everything
 async function loadDashboard() {
   try {
@@ -262,7 +260,7 @@ function copyLink(id) {
 }
 
 function loadAccountStatus(status) {
-   document.body.innerHTML += `
+  document.body.innerHTML += `
   <div class="min-h-[70vh] flex items-center justify-center px-4">
     <div class="bg-white shadow-lg rounded-2xl p-6 max-w-md w-full text-center">
       
@@ -287,3 +285,22 @@ function loadAccountStatus(status) {
   </div>
 `;
 }
+
+function togglePremiumDiv(e) {
+  e.stopPropagation();
+
+  const prDiv = document.getElementById("premiumDiv");
+  prDiv.classList.toggle("hidden");
+  prDiv.classList.toggle("flex");
+}
+
+document.addEventListener("click", function (e) {
+  const modal = document.getElementById("premiumDiv");
+
+  if (!modal.classList.contains("hidden")) {
+    if (!modal.contains(e.target)) {
+      modal.classList.remove("flex");
+      modal.classList.add("hidden");
+    }
+  }
+});
