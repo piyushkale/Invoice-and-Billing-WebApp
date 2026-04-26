@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    isPremium: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

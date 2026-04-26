@@ -43,7 +43,12 @@ exports.login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role, status: user.status },
+      {
+        id: user._id,
+        role: user.role,
+        status: user.status,
+        isPremium: user.isPremium ?? false,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
@@ -62,8 +67,8 @@ exports.login = async (req, res) => {
 
 exports.roleAuthenticate = async (req, res) => {
   try {
-    const { role, status } = req.user;
-    res.status(200).json({role,status});
+    const { role, status,isPremium } = req.user;
+    res.status(200).json({ role, status,isPremium });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
