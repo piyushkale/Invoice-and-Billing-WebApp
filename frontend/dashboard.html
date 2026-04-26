@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Dashboard</title>
-
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script defer src="dashboard.js"></script>
 
@@ -26,8 +26,9 @@
         <!-- Right side -->
         <div class="flex items-center gap-3">
           <button
+            id="buySubBtn"
             onclick="togglePremiumDiv(event)"
-            class="cursor-pointer hover:brightness-110 px-4 py-1.5 rounded-md bg-purple-600 text-white transition"
+            class="cursor-pointer hidden hover:brightness-110 px-4 py-1.5 rounded-md bg-purple-600 text-white transition"
           >
             Subscription
           </button>
@@ -83,6 +84,7 @@
       </ul>
 
       <button
+        onclick="startPremiumPayment()"
         class="cursor-pointer mt-4 bg-green-400/90 hover:bg-green-500 hover:shadow-[0_0_10px_3px_rgb(211,211,211,0.4)] opacity-80 rounded-full py-1 transition-all duration-200"
       >
         Proceed To Payment

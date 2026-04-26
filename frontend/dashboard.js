@@ -17,6 +17,16 @@ window.onload = async () => {
     loadAccountStatus(res.data.status);
     return;
   }
+
+  const bBtn = document.getElementById("buySubBtn");
+  if (res.data.isPremium) {
+    const prDiv = document.getElementById("premiumDiv");
+    prDiv.remove();
+    bBtn.disabled = true;
+
+    bBtn.textContent = "Premium";
+  }
+  bBtn.classList.remove("hidden");
   div.classList.remove("hidden");
   loadDashboard();
 };
@@ -304,3 +314,72 @@ document.addEventListener("click", function (e) {
     }
   }
 });
+
+async function startPremiumPayment() {
+  try {
+    //  Create order from backend
+    const { data } = await axios.post(
+      "/api/businessProfile/create-order",
+      {},
+      {
+        headers: {
+          Authorization: token, // your auth token
+        },
+      },
+    );
+
+    const order = data.order;
+
+    //  Configure Razorpay
+    const options = {
+      key: "rzp_test_Si2mRe2qVJ6o0j", // from dashboard
+      amount: order.amount,
+      currency: "INR",
+      name: "Invoice Billing App",
+      description: "Premium Plan",
+      order_id: order.id,
+
+      handler: async function (response) {
+        try {
+          // Verify payment
+          const verifyRes = await axios.post(
+            "/api/businessProfile/verify-payment",
+            response,
+            {
+              headers: {
+                Authorization: token,
+              },
+            },
+          );
+
+          if (verifyRes.data.success) {
+            alert("✅ Payment successful!");
+
+            // 🔥 Update UI instantly
+            // showPremiumUI();
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Verification failed");
+        }
+      },
+
+      modal: {
+        ondismiss: function () {
+          console.log("Payment popup closed");
+        },
+      },
+
+      theme: {
+        color: "#4f46e5",
+      },
+    };
+
+    // Open Razorpay popup
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    console.error(err);
+    alert("Payment failed to start");
+  }
+}
