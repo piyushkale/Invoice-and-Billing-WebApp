@@ -44,7 +44,7 @@ async function pendingBusinesses() {
 
 function displayPendingRequests(data) {
   const pendingContainer = document.getElementById("pendingContainer");
-  pendingContainer.innerHTML = ` <div class="flex justify-around flex-row text-slate-800 bg-black/10">
+  pendingContainer.innerHTML = ` <div class="flex justify-around flex-row text-gray-200 bg-black/10">
           <h2>Name</h2>
           <h3>Email</h3>
           <h3>Status</h3>
@@ -225,7 +225,7 @@ function renderSearchResults(data) {
         </div>`;
 
   data.map((biz) => {
-    mainDiv.innerHTML += `<div class="flex justify-evenly gap-11 py-0.5 px-10 hover:bg-slate-100">
+    mainDiv.innerHTML += `<div class="flex justify-evenly gap-11 py-0.5 px-10 hover:bg-yellow-300/50">
           <h2>${biz.name}</h2>
           <h2>${biz.email}</h2>
           <h3>${biz.status}</h3>
