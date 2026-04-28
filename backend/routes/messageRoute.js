@@ -1,0 +1,18 @@
+const express = require("express");
+const router = express.Router();
+const Message = require("../models/Message");
+
+// GET chat history
+router.get("/:invoiceId", async (req, res) => {
+  try {
+    const messages = await Message.find({
+      invoiceId: req.params.invoiceId,
+    }).sort({ createdAt: 1 });
+
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
