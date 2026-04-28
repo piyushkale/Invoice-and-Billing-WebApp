@@ -5,19 +5,27 @@
     <title>Invoice</title>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script defer src="invoice.js"></script>
 
     <link href="./src/output.css" rel="stylesheet" />
   </head>
 
   <body class="bg-gray-100 p-6">
-       <div class="bg-indigo-200 text-slate-700 brightness-110 p-5 rounded-md shadow mb-6">
-        <h2 class="text-xl font-semibold mb-3">Business</h2>
+    <div
+      class="bg-indigo-200 text-slate-700 brightness-110 p-5 rounded-md shadow mb-6"
+    >
+      <h2 class="text-xl font-semibold mb-3">Business</h2>
 
-        <p><span id="bizName" class="text-3xl my-1 font-sans text-slate-900/90 font-bold "></span></p>
-        <p><strong>Address </strong> <span id="bizAddress"></span></p>
-        <p><strong>Phone </strong> <span id="bizPhone"></span></p>
-      </div>
+      <p>
+        <span
+          id="bizName"
+          class="text-3xl my-1 font-sans text-slate-900/90 font-bold"
+        ></span>
+      </p>
+      <p><strong>Address </strong> <span id="bizAddress"></span></p>
+      <p><strong>Phone </strong> <span id="bizPhone"></span></p>
+    </div>
 
     <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
       <h1 class="text-2xl font-bold mb-4">Invoice</h1>
@@ -36,7 +44,56 @@
       </h2>
 
       <!-- Actions -->
-      <div id="actions" class="flex justify-end gap-2"></div>
+      <div id="toggleEditDiv" class="hidden justify-end">
+        <button
+          class="bg-blue-500 text-white px-3 py-1 rounded cursor-pointer"
+          onclick="editToggle()"
+        >
+          Edit
+        </button>
+      </div>
+      <div id="actions" class="hidden justify-end gap-2"></div>
+    </div>
+
+    <!-- 🔥 Chat Widget -->
+    <div id="chatWidget" class="fixed bottom-5 right-5 w-80 z-50 font-sans">
+      <!-- Header -->
+      <div
+        onclick="toggleChat()"
+        class="bg-blue-600 text-white px-4 py-2 rounded-t-xl cursor-pointer text-center font-semibold shadow-lg"
+      >
+        💬 Chat
+      </div>
+
+      <!-- Body -->
+      <div
+        id="chatBody"
+        class="hidden flex flex-col h-96 bg-white border border-gray-300 rounded-b-xl shadow-lg"
+      >
+        <!-- Messages -->
+        <div
+          id="chatMessages"
+          class="flex-1 p-3 overflow-y-auto text-sm space-y-2"
+        ></div>
+
+        <!-- Input -->
+        <div class="flex border-t">
+          <input
+            type="text"
+            id="msg"
+            placeholder="Type a message..."
+            class="flex-1 px-3 py-2 outline-none text-sm"
+            oninput="typing()"
+            onkeypress="handleEnter(event)"
+          />
+          <button
+            onclick="sendMessage()"
+            class="bg-blue-600 text-white px-4 text-sm"
+          >
+            Send
+          </button>
+        </div>
+      </div>
     </div>
   </body>
 </html>
