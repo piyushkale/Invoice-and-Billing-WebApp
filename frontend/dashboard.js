@@ -4,12 +4,10 @@ if (!token) {
   window.location.href = "/index.html";
 }
 window.onload = async () => {
-  // api to verfiy account status
-  // if approved return or else #bodyContainer hide this and show account status
   const res = await axios.get("/api/auth/roleAuthenticate", {
     headers: { Authorization: token },
   });
-  console.log(res.data);
+
   const div = document.getElementById("bodyContainer");
   if (res.data.status !== "approved") {
     div.remove();
