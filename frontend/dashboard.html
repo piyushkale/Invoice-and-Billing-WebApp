@@ -59,7 +59,7 @@
     <!-- Premium Modal -->
     <div
       id="premiumDiv"
-      class="absolute hidden translate-y-4 left-1/2 -translate-x-1/2 w-[30vw] h-[40vh] flex-col justify-center gap-5 px-6 z-20 bg-linear-to-br from-purple-950 via-slate-900 to-slate-800 text-gray-100 [&_ul]:text-gray-400 scale-105 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/10"
+      class="absolute hidden translate-y-4 left-1/2 -translate-x-1/2 w-[30vw] h-[50vh] flex-col justify-center gap-5 px-6 z-20 bg-linear-to-br from-purple-950 via-slate-900 to-slate-800 text-gray-100 [&_ul]:text-gray-400 scale-105 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/10"
     >
       <button
         onclick="togglePremiumDiv(event)"
@@ -70,7 +70,7 @@
 
       <h2 class="text-center font-semibold text-lg">
         Features you get with
-        <span class="text-lime-400">Premium subscription</span>
+        <span class="text-lime-400">Premium Subscription</span>
       </h2>
 
       <ul class="list-disc list-inside space-y-1 text-sm">
@@ -144,15 +144,26 @@
         </div>
       </div>
 
+      <div id="freeDiv" class="mt-10 bg-gray-300 p-1 rounded-2xl w-fit">
+        <h2>
+          Can create
+          <span id="remainingInv" class="text-red-600 font-semibold">5</span>
+          invoices with current <span class="text-green-600">Free plan</span>
+        </h2>
+      </div>
       <!-- Create Invoice -->
       <div
-        class="bg-linear-to-r from-slate-800 to-slate-900 mt-8 p-8 rounded-2xl shadow-xl"
+        id="createInvDiv"
+        class="bg-linear-to-r relative from-slate-800 to-slate-900 mt-8 p-8 rounded-2xl shadow-xl"
       >
         <h2 class="text-2xl mb-6 text-white font-semibold">
           Create Invoice 📝
         </h2>
 
-        <div class="bg-white p-6 rounded-2xl max-w-2xl mx-auto shadow-lg">
+        <div
+          id="crInvDiv"
+          class="bg-white p-6 rounded-2xl max-w-2xl mx-auto shadow-lg"
+        >
           <input
             id="customerName"
             type="text"
@@ -181,6 +192,7 @@
           </h3>
 
           <button
+            id="createInvBtn"
             onclick="createInvoice()"
             class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 active:scale-95 transition shadow-sm"
           >

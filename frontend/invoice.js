@@ -240,7 +240,6 @@ function renderMessage(msg) {
   wrapper.appendChild(bubble);
   chatMessages.appendChild(wrapper);
 
-  
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 

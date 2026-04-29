@@ -1,5 +1,6 @@
 const token = localStorage.getItem("token");
-
+let freeInv;
+let premiumUser = false;
 if (!token) {
   window.location.href = "/index.html";
 }
@@ -20,9 +21,10 @@ window.onload = async () => {
   if (res.data.isPremium) {
     const prDiv = document.getElementById("premiumDiv");
     prDiv.remove();
+    document.getElementById("freeDiv").remove();
     bBtn.disabled = true;
-
     bBtn.textContent = "Premium";
+    premiumUser = true;
   }
   bBtn.classList.remove("hidden");
   div.classList.remove("hidden");
@@ -34,6 +36,7 @@ async function loadDashboard() {
   try {
     await loadBusiness();
     await loadInvoices();
+    await checkFreeTier();
   } catch (err) {
     console.error(err);
   }
@@ -55,15 +58,25 @@ async function loadBusiness() {
 
 // Invoices
 async function loadInvoices() {
-  const res = await axios.get("/api/invoice", {
-    headers: { Authorization: token },
-  });
+  try {
+    const res = await axios.get("/api/invoice", {
+      headers: { Authorization: token },
+    });
 
-  const invoices = res.data.invoices;
-  document.getElementById("last30Id").innerText = `Rs ${res.data.total}`;
-  document.getElementById("lastYearId").innerText = `Rs ${res.data.totalYear}`;
-  document.getElementById("billsId").innerText = `${res.data.count}`;
-  renderInvoices(invoices);
+    const invoices = res.data.invoices;
+    freeInv = 5 - (invoices.length ?? 0);
+    if (!premiumUser) {
+      document.getElementById("remainingInv").innerText = freeInv;
+    }
+    document.getElementById("last30Id").innerText = `Rs ${res.data.total}`;
+    document.getElementById("lastYearId").innerText =
+      `Rs ${res.data.totalYear}`;
+    document.getElementById("billsId").innerText = `${res.data.count}`;
+    renderInvoices(invoices);
+    await checkFreeTier();
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 function renderInvoices(invoices) {
@@ -379,5 +392,22 @@ async function startPremiumPayment() {
   } catch (err) {
     console.error(err);
     alert("Payment failed to start");
+  }
+}
+
+async function checkFreeTier() {
+  if (!premiumUser && freeInv <= 0) {
+    const createInvBtn = document.getElementById("createInvBtn");
+    createInvBtn.disabled = true;
+    createInvBtn.classList.add("cursor-not-allowed", "grayscale");
+    const crInvDiv = document.getElementById("crInvDiv");
+    crInvDiv.classList.add("blur");
+
+    document.getElementById("customerName").disabled = true;
+    document.getElementById("customerEmail").disabled = true;
+    const createInvDiv = document.getElementById("createInvDiv");
+    createInvDiv.innerHTML += `<div class="absolute bg-slate-800/70 p-10 rounded-lg backdrop-blur-2xl top-1/3 left-1/3"><h2 class="text-center text-white">Youve reached free tier 🔒<span class="text-red-400 font-bold">Limit</span></h2>
+    <h2 class="text-center text-white">Subscribe to Unlock the <span class="text-purple-500 font-bold">Features</span></h2>
+    </div>`;
   }
 }
