@@ -2,9 +2,9 @@ const Invoice = require("../models/Invoice");
 const generateInvoicePdf = require("../utils/generateInvoicePdf");
 const { sendInvoiceEmail } = require("../utils/sendInvoiceEmail");
 const Business = require("../models/Business");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
 
 exports.createInvoice = async (req, res) => {
   try {
@@ -78,7 +78,10 @@ exports.getInv = async (req, res) => {
     const details = await Business.findOne({ user: invoice.user })
       .select("address businessName phone -_id")
       .lean();
+    const pr = await User.findById(invoice.user).select("isPremium").lean();
 
+    details.isPremium = pr.isPremium ?? false;
+    
     let token = req.header("Authorization");
     let isOwner = false;
     if (token) {

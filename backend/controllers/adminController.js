@@ -76,7 +76,7 @@ exports.analyticalData = async (req, res) => {
     const total30DayInvoices = await Invoice.countDocuments({
       createdAt: { $gte: last30Days },
     });
-    // const premiumUsersCount = await User
+    const premiumUsersCount = await User.countDocuments({ isPremium: true });
     const totalUsers = await User.countDocuments({ role: "user" });
     const rejectedUsers = await User.countDocuments({ status: "rejected" });
     const bannedUsers = await User.countDocuments({ status: "banned" });
@@ -85,6 +85,7 @@ exports.analyticalData = async (req, res) => {
       topUser,
       total30DayInvoices,
       totalUsers,
+      premiumUsersCount,
       rejectedUsers,
       bannedUsers,
     });
