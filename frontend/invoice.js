@@ -2,7 +2,7 @@ const params = new URLSearchParams(window.location.search);
 const invoiceId = params.get("id");
 
 const token = localStorage.getItem("token");
-
+let premiumUser = false;
 let items = [];
 let isOwner = false;
 
@@ -14,6 +14,8 @@ async function loadInvoice() {
     });
 
     const inv = res.data.invoice;
+    premiumUser = res.data.details.isPremium;
+    await checkPremium();
     document.getElementById("bizName").innerText =
       res.data.details.businessName;
     document.getElementById("bizAddress").innerText = res.data.details.address;
@@ -32,6 +34,17 @@ async function loadInvoice() {
     setupUI();
   } catch (err) {
     console.error(err);
+  }
+}
+
+async function checkPremium() {
+  const chatDiv = document.getElementById("chatWidget");
+  const toggleEditDiv = document.getElementById("toggleEditDiv");
+  if (!premiumUser) {
+    chatDiv.remove();
+    toggleEditDiv.remove();
+  } else {
+    chatDiv.classList.remove("hidden");
   }
 }
 

@@ -7,50 +7,91 @@
   </head>
 
   <body class="bg-gray-700 flex flex-col items-center justify-center h-screen">
-    <h2 class="text-4xl text-amber-100 mb-10 opacity-90 font-bold">Invoice & Billing</h2>
-    <div class="bg-slate-200 p-8 rounded-2xl shadow-md w-96">
-      <h2 id="title" class="text-2xl font-bold mb-6 text-center">Login</h2>
+    <!doctype html>
 
-      <form id="authForm" class="space-y-4">
-        <!-- Name (only for signup) -->
-        <input
-          type="text"
-          id="name"
-          placeholder="Name"
-          class="w-full p-2 border rounded-lg hidden"
-        />
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>Auth</title>
+        <link href="./src/output.css" rel="stylesheet" />
+      </head>
 
-        <input
-          type="email"
-          id="email"
-          placeholder="Email"
-          class="w-full p-2 border rounded-lg"
-          required
-        />
+      <body>
+        <div class="w-full max-w-md">
+          <!-- Heading -->
+          <h2
+            class="text-4xl font-extrabold text-center text-yellow-100 tracking-wide mb-10"
+          >
+            Invoice & Billing
+          </h2>
 
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          class="w-full p-2 border rounded-lg"
-          required
-        />
+          <!-- Card -->
+          <div
+            class="bg-white/90 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl"
+          >
+            <h2
+              id="title"
+              class="text-2xl font-semibold text-gray-800 text-center mb-6"
+            >
+              Login
+            </h2>
 
-        <button
-          type="submit"
-          class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-        >
-          Submit
-        </button>
+            <form id="authForm" class="space-y-5">
+              <!-- Name -->
+              <input
+                type="text"
+                id="name"
+                placeholder="Name"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition hidden"
+              />
 
-        <p class="text-center text-sm">
-          <span id="toggleText">Don't have an account?</span>
-          <button type="button" id="toggleBtn" class="text-blue-500">
-            Signup
-          </button>
-        </p>
-      </form>
-    </div>
+              <!-- Email -->
+              <input
+                type="email"
+                id="email"
+                placeholder="Email"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                required
+              />
+
+              <!-- Password -->
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                required
+              />
+
+              <!-- Button -->
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 active:scale-[0.98] transition-all duration-150 shadow-md"
+              >
+                Submit
+              </button>
+
+              <!-- Toggle -->
+              <p class="text-center text-sm text-gray-600">
+                <span id="toggleText">Don't have an account?</span>
+                <button
+                  type="button"
+                  id="toggleBtn"
+                  class="ml-1 text-blue-600 font-medium hover:underline"
+                >
+                  Signup
+                </button>
+              </p>
+            </form>
+          </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="./auth.js"></script>
+        ```
+      </body>
+    </html>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./auth.js"></script>
   </body>

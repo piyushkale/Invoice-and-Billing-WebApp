@@ -51,7 +51,7 @@ function displayPendingRequests(data) {
         </div>`;
   data.map((biz, i) => {
     pendingContainer.innerHTML += `  <div
-          class="flex justify-around p-2 items-center flex-row text-slate-800/80 bg-black/10"
+          class="flex justify-around p-2 items-center flex-row text-slate-200 bg-black/10"
         >
           <h2>${i + 1}. ${biz.name}</h2>
           <h3>${biz.email}</h3>
@@ -264,12 +264,16 @@ async function loadAnalyticalData() {
       headers: { Authorization: token },
     });
     const data = res.data;
-    console.log(data);
+   
+    
     document.getElementById("topUser").innerText = data.topUser?.name
       ? data.topUser.name
       : "N/A";
     document.getElementById("total30").innerText = data.total30DayInvoices
       ? data.total30DayInvoices
+      : "N/A";
+    document.getElementById("premiumUsers").innerText = data.premiumUsersCount
+      ? data.premiumUsersCount
       : "N/A";
     document.getElementById("totalUsers").innerText = data.totalUsers
       ? data.totalUsers
